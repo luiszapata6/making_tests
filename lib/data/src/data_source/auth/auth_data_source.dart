@@ -12,7 +12,6 @@ class AuthDataSource {
 
       return response.user!;
     } on FirebaseAuthException catch (e) {
-      debugPrint("error");
       throw InvalidData(e.message);
     }
   }
@@ -24,7 +23,7 @@ class AuthDataSource {
 
       return response.user!;
     } on FirebaseAuthException catch (e) {
-      debugPrint("error");
+      debugPrint("error ${e.message}");
       throw InvalidData(e.message);
     }
   }
@@ -33,7 +32,6 @@ class AuthDataSource {
     try {
       await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-      debugPrint("error");
       throw InvalidData(e.message);
     }
   }

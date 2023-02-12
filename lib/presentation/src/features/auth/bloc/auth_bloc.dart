@@ -19,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (error) => emit(
           state.copyWith(
             formStatus: SubmissionFailed(exception: Exception(error.message)),
+            errorMessage: error.message,
           ),
         ),
         (user) => emit(
@@ -35,8 +36,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       loggedUser.fold(
         (error) => emit(
           state.copyWith(
-            formStatus: SubmissionFailed(exception: Exception(error.message)),
-          ),
+              formStatus: SubmissionFailed(exception: Exception(error.message)),
+              errorMessage: error.message),
         ),
         (user) => emit(
           state.copyWith(
@@ -53,6 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (error) => emit(
           state.copyWith(
             formStatus: SubmissionFailed(exception: Exception(error.message)),
+            errorMessage: error.message,
           ),
         ),
         (user) => emit(
