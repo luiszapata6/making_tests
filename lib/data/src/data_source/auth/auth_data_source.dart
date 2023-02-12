@@ -1,6 +1,6 @@
+import '../../../../domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:making_tests/presentation/src/core/config/helpers/errors/invalid_data.dart';
 
 class AuthDataSource {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

@@ -1,10 +1,7 @@
+import '../../../../../domain/domain.dart';
+import '../../../../../dependencies_injection/locator.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
-import '../../../../../dependencies_injection/locator.dart';
-import '../../../../../domain/src/use_cases/auth/logout_use_case.dart';
-import '../../../../../domain/src/use_cases/auth/signup_use_case.dart';
-import 'package:making_tests/domain/src/use_cases/auth/login_use_case.dart';
-import 'package:making_tests/presentation/src/core/config/helpers/form_submission_status.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

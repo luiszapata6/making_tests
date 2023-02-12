@@ -1,9 +1,9 @@
+import '../../../../presentation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:making_tests/presentation/src/features/auth/screens/login_screen.dart';
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+class AuthScreen extends StatelessWidget {
+  const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

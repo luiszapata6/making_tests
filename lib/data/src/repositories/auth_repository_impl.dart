@@ -1,8 +1,7 @@
+import '../../data.dart';
+import '../../../domain/domain.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:making_tests/data/src/data_source/auth/auth_data_source.dart';
-import 'package:making_tests/domain/src/repositories/auth/auth_repository.dart';
-import 'package:making_tests/presentation/src/core/config/helpers/errors/invalid_data.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDataSource authDataSource;
