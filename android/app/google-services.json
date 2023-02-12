@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "777300142934",
+    "project_id": "making-tests",
+    "storage_bucket": "making-tests.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:777300142934:android:0fabc002434e1f896f44f7",
+        "android_client_info": {
+          "package_name": "com.example.making_tests"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "777300142934-hp12l2smuvui8rqrp4ru97ikbl10cgsj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdELXrWzavPuKEkZEY3lMRU-X5wFd4x7Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "777300142934-hp12l2smuvui8rqrp4ru97ikbl10cgsj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "777300142934-to09k25ib32r0mi7uael1mu3val2btip.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.making-test"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
