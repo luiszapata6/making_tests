@@ -1,5 +1,5 @@
 import '../../../../../domain/domain.dart';
-import '../../../../../dependencies_injection/locator.dart';
+import '../../../../../dependencies_injection/injector.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 
@@ -8,9 +8,9 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(const AuthState()) {
-    final loginUseCase = locator<LoginUseCase>();
-    final signUpUseCase = locator<SignUpUseCase>();
-    final logOutUseCase = locator<LogoutUseCase>();
+    final loginUseCase = Injector.resolve<LoginUseCase>();
+    final signUpUseCase = Injector.resolve<SignUpUseCase>();
+    final logOutUseCase = Injector.resolve<LogoutUseCase>();
 
     on<SignUp>((event, emit) async {
       emit(state.copyWith(formStatus: FormSubmitting()));

@@ -3,8 +3,9 @@ export 'package:making_tests/presentation/src/widgets/common_widgets/text_form_w
 export 'package:making_tests/presentation/src/features/auth/bloc/auth_bloc.dart';
 export 'package:making_tests/presentation/src/features/auth/screens/sign_screen.dart';
 export 'package:making_tests/presentation/src/features/auth/views/auth_handler_view.dart';
-export 'package:making_tests/presentation/src/features/auth/views/signup_view.dart';
-export 'package:making_tests/presentation/src/features/auth/views/login_view.dart';
+export 'package:making_tests/presentation/src/features/auth/widgets/loading_widget.dart';
+export 'package:making_tests/presentation/src/features/auth/widgets/login_form_widget.dart';
+export 'package:making_tests/presentation/src/features/auth/widgets/signup_form_widget.dart';
 export 'package:making_tests/presentation/src/features/home/screens/home_screen.dart';
 export 'package:making_tests/presentation/src/utils/regexp.dart';
 export 'package:making_tests/presentation/src/widgets/common_widgets/large_button.dart';

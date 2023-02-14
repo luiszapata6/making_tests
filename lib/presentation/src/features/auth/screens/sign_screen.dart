@@ -46,8 +46,8 @@ class _SignScreenState extends State<SignScreen> {
                 SizedBox(
                   height: size.height * 0.055,
                 ),
-                Visibility(visible: login, child: const LoginView()),
-                Visibility(visible: !login, child: const SignUpView()),
+                Visibility(visible: login, child: const LoginForm()),
+                Visibility(visible: !login, child: const SignUpForm()),
                 const Align(
                   alignment: Alignment.center,
                   child: TextPoppins(
@@ -60,6 +60,7 @@ class _SignScreenState extends State<SignScreen> {
                   height: size.height * 0.015,
                 ),
                 LargeButton(
+                  key: const Key('switchFormButton'),
                   text: login ? 'Regístrate' : 'Inicia sesión',
                   onPressed: () => setState(() => login = !login),
                   color: white,

@@ -8,11 +8,13 @@ class AuthHandlerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
+      key: const Key('authHandlerStream'),
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-              body: Center(child: CircularProgressIndicator()));
+          return const LoadingWidget(
+            key: Key('loadingScaffold'),
+          );
         } else {
           if (snapshot.hasData) {
             return const HomeScreen(

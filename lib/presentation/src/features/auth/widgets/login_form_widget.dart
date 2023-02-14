@@ -3,21 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../domain/domain.dart';
 import '../../../../presentation.dart';
 
-class SignUpView extends StatefulWidget {
-  const SignUpView({
+class LoginForm extends StatefulWidget {
+  const LoginForm({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<SignUpView> createState() => _SignUpViewState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
-class _SignUpViewState extends State<SignUpView> {
+class _LoginFormState extends State<LoginForm> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-  final GlobalKey<FormState> _signFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+
+  bool hidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _SignUpViewState extends State<SignUpView> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Form(
-          key: _signFormKey,
+          key: _loginFormKey,
           child: Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,11 +41,10 @@ class _SignUpViewState extends State<SignUpView> {
                   height: size.height * 0.02,
                 ),
                 TextFormFieldWidget(
+                  key: const Key('emailTextField'),
                   controller: emailController,
                   validator: (email) =>
-                      email != null && emailRegex.hasMatch(email)
-                          ? null
-                          : 'Ingresa un correo válido',
+                      isValidEmail(email!) ? null : 'Ingresa un correo válido',
                 ),
                 SizedBox(
                   height: size.height * 0.05,
@@ -59,35 +58,24 @@ class _SignUpViewState extends State<SignUpView> {
                   height: size.height * 0.02,
                 ),
                 TextFormFieldWidget(
+                  key: const Key('passwordTextField'),
                   maxLines: 1,
                   controller: passwordController,
-                  obscureText: true,
-                  validator: (password) =>
-                      password != null && password.length < 6
-                          ? 'Ingresa una contraseña válida'
-                          : null,
-                ),
-                SizedBox(
-                  height: size.height * 0.03,
-                ),
-                const TextPoppins(
-                  text: 'Confirma tu contraseña',
-                  fontSize: 18,
-                  color: white,
-                ),
-                SizedBox(
-                  height: size.height * 0.02,
-                ),
-                TextFormFieldWidget(
-                  maxLines: 1,
-                  controller: confirmPasswordController,
-                  obscureText: true,
-                  validator: (password) =>
-                      password != null && password.length < 6
-                          ? 'Ingresa una contraseña válida'
-                          : password != passwordController.text
-                              ? 'Ambas contraseñas deben coincidir'
-                              : null,
+                  obscureText: hidden,
+                  suffixIcon: IconButton(
+                    key: const Key('hidePasswordButton'),
+                    icon: Icon(
+                      hidden
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => setState(() => hidden = !hidden),
+                  ),
+                  validator: (password) => !isValidPassword(password!)
+                      ? 'Ingresa una contraseña válida'
+                      : null,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
                 SizedBox(
                   height: size.height * 0.05,
@@ -105,10 +93,11 @@ class _SignUpViewState extends State<SignUpView> {
                       return const Center(child: CircularProgressIndicator());
                     } else {
                       return LargeButton(
-                        text: 'Regístrate',
-                        onPressed: () {
-                          if (!_signFormKey.currentState!.validate()) return;
-                          authBloc.add(SignUp(
+                        key: const Key('loginButton'),
+                        text: 'Inicia sesión',
+                        onPressed: () async {
+                          if (!_loginFormKey.currentState!.validate()) return;
+                          authBloc.add(Login(
                               emailController.text, passwordController.text));
                         },
                       );
@@ -130,7 +119,6 @@ class _SignUpViewState extends State<SignUpView> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    confirmPasswordController.dispose();
     super.dispose();
   }
 }

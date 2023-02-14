@@ -1,13 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:making_tests/dependencies_injection/locator.dart';
+import 'package:making_tests/dependencies_injection/injector.dart';
 import 'presentation/presentation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  setUp();
+  Injector.setup();
   runApp(const MakingTestApp());
 }
 
