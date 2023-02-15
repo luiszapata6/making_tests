@@ -27,36 +27,53 @@ void main() {
     );
   }
 
-  final appTitleFinder = find.text('TESTING APP');
-  final emailTitleFinder = find.text('Correo electrónico');
-  final passwordTitleFinder = find.text('Contraseña');
-  final emailFieldFinder = find.byKey(const Key('emailTextField'));
-  final passwordFieldFinder = find.byKey(const Key('passwordTextField'));
-  final largeButtonFinder = find.byType(LargeButton);
-  final signUpFormFinder = find.byType(SignUpForm);
-  final loginFormFinder = find.byType(LoginForm);
-  final switchFormButtonFinder = find.byKey(const Key('switchFormButton'));
-  final invalidEmailTextFinder = find.text('Ingresa un correo válido');
-  final invalidPasswordTextFinder = find.text('Ingresa una contraseña válida');
-  final loginButtonFinder = find.byKey(const Key('loginButton'));
-
-  group('Sign Screen Test', () {
-    testWidgets('Find initial screen widgets', (WidgetTester tester) async {
-      await tester.pumpWidget(fakeMaterialApp(const SignScreen()));
-
+  group('Find auth screen widgets >', () {
+    // Best practice
+    testWidgets('Check finds screen title', (WidgetTester tester) async {
+      // Arrange
+      final appTitleFinder = find.text('TESTING APP');
+      // Act
+      await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
+      // Assert
       expect(appTitleFinder, findsOneWidget);
-      expect(emailTitleFinder, findsOneWidget);
-      expect(passwordTitleFinder, findsOneWidget);
-      expect(emailFieldFinder, findsOneWidget);
-      expect(passwordFieldFinder, findsOneWidget);
-      expect(switchFormButtonFinder, findsOneWidget);
-      expect(largeButtonFinder, findsWidgets);
-      expect(signUpFormFinder, findsNothing);
-      expect(loginFormFinder, findsOneWidget);
     });
 
-    testWidgets('Check switch sign form', (WidgetTester tester) async {
-      await tester.pumpWidget(fakeMaterialApp(const SignScreen()));
+    // It's okay
+    testWidgets('Check finds email field', (WidgetTester tester) async {
+      // Act
+      await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
+      // Assert
+      expect(find.byKey(const Key('emailTextField')), findsOneWidget);
+    });
+
+    testWidgets('Check finds password field', (WidgetTester tester) async {
+      await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
+
+      expect(find.byKey(const Key('passwordTextField')), findsOneWidget);
+    });
+
+    testWidgets('Check finds two text field', (WidgetTester tester) async {
+      await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
+
+      expect(find.byType(TextFormFieldWidget), findsWidgets);
+    });
+
+    testWidgets('Check finds no confirmation password field',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
+
+      expect(find.byKey(const Key('passwordConfirmationField')), findsNothing);
+    });
+  });
+
+  group('Switch auth forms test >', () {
+    // Arrange
+    final signUpFormFinder = find.byType(SignUpForm);
+    final loginFormFinder = find.byType(LoginForm);
+    final switchFormButtonFinder = find.byKey(const Key('switchFormButton'));
+
+    testWidgets('Check switch auth form', (WidgetTester tester) async {
+      await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
 
       await tester.tap(switchFormButtonFinder);
       await tester.pump();
@@ -69,9 +86,17 @@ void main() {
     });
   });
 
-  group('Login form test', () {
+  group('Login form interaction test >', () {
+    // Arrange
+    final emailFieldFinder = find.byKey(const Key('emailTextField'));
+    final passwordFieldFinder = find.byKey(const Key('passwordTextField'));
+    final invalidEmailTextFinder = find.text('Ingresa un correo válido');
+    final invalidPasswordTextFinder =
+        find.text('Ingresa una contraseña válida');
+    final loginButtonFinder = find.byKey(const Key('loginButton'));
+
     testWidgets('Check invalid login form', (WidgetTester tester) async {
-      await tester.pumpWidget(fakeMaterialApp(const SignScreen()));
+      await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
       expect(loginButtonFinder, findsOneWidget);
       expect(invalidEmailTextFinder, findsNothing);
       expect(invalidPasswordTextFinder, findsNothing);
@@ -80,25 +105,25 @@ void main() {
       expect(invalidEmailTextFinder, findsOneWidget);
       expect(invalidPasswordTextFinder, findsOneWidget);
       await tester.enterText(emailFieldFinder, 'test@domain.com');
-      await tester.enterText(passwordFieldFinder, '123456ABC');
+      await tester.enterText(passwordFieldFinder, '123456Abc*');
       await tester.pump();
       expect(invalidEmailTextFinder, findsNothing);
       expect(invalidPasswordTextFinder, findsNothing);
     });
 
     testWidgets('Check password hidden', (WidgetTester tester) async {
-      await tester.pumpWidget(fakeMaterialApp(const SignScreen()));
+      await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
       final passwordTextField =
           tester.widget<TextFormFieldWidget>(passwordFieldFinder);
       expect(passwordTextField.obscureText, isTrue);
     });
 
     testWidgets('Check loader on submit', (WidgetTester tester) async {
-      await tester.pumpWidget(fakeMaterialApp(const SignScreen()));
+      await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
       expect(find.byType(CircularProgressIndicator), findsNothing);
       expect(loginButtonFinder, findsOneWidget);
       await tester.enterText(emailFieldFinder, 'test@domain.com');
-      await tester.enterText(passwordFieldFinder, '123456ABC');
+      await tester.enterText(passwordFieldFinder, '123456Abc*');
       await tester.tap(loginButtonFinder);
       await tester.pump();
       expect(find.byType(CircularProgressIndicator), findsOneWidget);

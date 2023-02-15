@@ -21,7 +21,7 @@ class AuthHandlerView extends StatelessWidget {
               title: 'Hola',
             );
           } else {
-            return const SignScreen();
+            return const AuthScreen();
           }
         }
       }),

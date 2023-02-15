@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import '../../../../presentation.dart';
 
-class SignScreen extends StatefulWidget {
-  const SignScreen({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
 
   @override
-  State<SignScreen> createState() => _SignScreenState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _SignScreenState extends State<SignScreen> {
+class _AuthScreenState extends State<AuthScreen> {
   bool login = true;
   @override
   Widget build(BuildContext context) {

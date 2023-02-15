@@ -79,6 +79,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   height: size.height * 0.02,
                 ),
                 TextFormFieldWidget(
+                  key: const Key('passwordConfirmationField'),
                   maxLines: 1,
                   controller: confirmPasswordController,
                   obscureText: true,

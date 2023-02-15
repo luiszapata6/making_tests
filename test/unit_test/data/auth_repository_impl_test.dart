@@ -3,19 +3,21 @@ import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
-import '../mocks/__firebasemock___.dart';
-import '../mocks/__authmocks__.dart';
+import '../../mocks/__firebasemock___.dart';
+import '../../mocks/__authmocks__.dart';
 
-Future<void> main() async {
+void main() {
+  late MockFirebaseAuth mockFirebaseAuth;
+  late MockAuthDataSource mockAuthDataSource;
+  late MockAuthRepositoryImpl mockAuthRepositoryImpl;
+
   setUp(() async {
     setupFirebaseAuthMocks();
+    mockFirebaseAuth = MockFirebaseAuth(mockUser: mockUser);
+    mockAuthDataSource = MockAuthDataSource(mockFirebaseAuth: mockFirebaseAuth);
+    mockAuthRepositoryImpl =
+        MockAuthRepositoryImpl(mockAuthDataSource: mockAuthDataSource);
   });
-
-  final mockFirebaseAuth = MockFirebaseAuth(mockUser: mockUser);
-  final mockAuthDataSource =
-      MockAuthDataSource(mockFirebaseAuth: mockFirebaseAuth);
-  final mockAuthRepositoryImpl =
-      MockAuthRepositoryImpl(mockAuthDataSource: mockAuthDataSource);
 
   group('Firebase Sign Up Test', () {
     test('Success Sign Up Test', () async {
@@ -33,16 +35,19 @@ Future<void> main() async {
   });
 
   group('Firebase Login Test', () {
-    test('Success Login Test', () async {
-      expect(await mockAuthRepositoryImpl.login(mockUser.email!, 'password'),
-          Success(mockUser));
+    test('Success login', () async {
+      expect(mockFirebaseAuth.currentUser, isNull);
+
+      await mockAuthRepositoryImpl.login(mockUser.email!, 'password');
+
+      expect(mockFirebaseAuth.currentUser, isNotNull);
     });
 
     test('Fail Login Test', () async {
       whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
           .on(mockFirebaseAuth)
           .thenThrow(FirebaseAuthException(code: 'test'));
-      expect(await mockAuthRepositoryImpl.signUp(mockUser.email!, 'password'),
+      expect(await mockAuthRepositoryImpl.login(mockUser.email!, 'password'),
           authException);
     });
   });
