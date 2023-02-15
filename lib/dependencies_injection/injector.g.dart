@@ -11,7 +11,7 @@ class _$Injector extends Injector {
   void _configureAuthFactories() {
     final KiwiContainer container = KiwiContainer();
     container
-      ..registerFactory((c) => AuthDataSource())
+      ..registerFactory((c) => AuthDataSource(firebaseAuth: c<FirebaseAuth>()))
       ..registerFactory<AuthRepository>(
           (c) => AuthRepositoryImpl(authDataSource: c<AuthDataSource>()))
       ..registerFactory(

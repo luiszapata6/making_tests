@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kiwi/kiwi.dart';
 
 import '../data/data.dart';
@@ -31,6 +32,11 @@ abstract class Injector {
 
   void _configureAuthsModule() {
     _configureAuthFactories();
+    _configureAuthFirebase();
+  }
+
+  void _configureAuthFirebase() {
+    container.registerInstance(FirebaseAuth.instance);
   }
 
   @Register.factory(AuthDataSource)

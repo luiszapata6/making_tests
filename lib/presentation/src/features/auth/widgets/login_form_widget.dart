@@ -17,8 +17,6 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
 
-  bool hidden = true;
-
   @override
   Widget build(BuildContext context) {
     final authBloc = BlocProvider.of<AuthBloc>(context);
@@ -61,17 +59,7 @@ class _LoginFormState extends State<LoginForm> {
                   key: const Key('passwordTextField'),
                   maxLines: 1,
                   controller: passwordController,
-                  obscureText: hidden,
-                  suffixIcon: IconButton(
-                    key: const Key('hidePasswordButton'),
-                    icon: Icon(
-                      hidden
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                      color: Colors.black,
-                    ),
-                    onPressed: () => setState(() => hidden = !hidden),
-                  ),
+                  obscureText: true,
                   validator: (password) => !isValidPassword(password!)
                       ? 'Ingresa una contraseña válida'
                       : null,

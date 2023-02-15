@@ -14,11 +14,11 @@ void main() async {
       expect(isValidEmail('testdomain@.com'), false);
       expect(isValidEmail('testdomain.com@'), false);
       expect(isValidEmail('test@domain..com'), false);
-      expect(isValidEmail('test@@domain..com'), false);
-      expect(isValidEmail('tes*t@@domain..com'), false);
-      expect(isValidEmail('tes#t@@domain..com'), false);
-      expect(isValidEmail('te/st@@domain..com'), false);
-      expect(isValidEmail('te/1@@domain..com'), false);
+      expect(isValidEmail('test@@domain.com'), false);
+      expect(isValidEmail('tes*t@@domain.com'), false);
+      expect(isValidEmail('tes#t@@domain.com'), false);
+      expect(isValidEmail('te/st@@domain.com'), false);
+      expect(isValidEmail('te;st@domain.com'), false);
     });
 
     test('Check success password validator', () {

@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import '../../data.dart';
 import '../../../domain/domain.dart';
-import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDataSource authDataSource;
@@ -9,33 +11,21 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.authDataSource});
 
   @override
-  Future<Either<InvalidData, User>> signUp(
-      String email, String password) async {
-    try {
-      final User response = await authDataSource.signUp(email, password);
-      return Right(response);
-    } on InvalidData catch (invalidData) {
-      return Left(invalidData);
-    }
+  Future<Result<User, Exception>> signUp(String email, String password) async {
+    final response = await authDataSource.signUp(email, password);
+
+    return response;
   }
 
   @override
-  Future<Either<InvalidData, User>> login(String email, String password) async {
-    try {
-      final User response = await authDataSource.login(email, password);
-      return Right(response);
-    } on InvalidData catch (invalidData) {
-      return Left(invalidData);
-    }
+  Future<Result<User, Exception>> login(String email, String password) async {
+    final response = await authDataSource.login(email, password);
+    return response;
   }
 
   @override
-  Future<Either<InvalidData, bool>> logout() async {
-    try {
-      await authDataSource.logout();
-      return const Right(true);
-    } on InvalidData catch (invalidData) {
-      return Left(invalidData);
-    }
+  Future<Result<bool, Exception>> logout() async {
+    final response = await authDataSource.logout();
+    return response;
   }
 }
