@@ -1,7 +1,8 @@
 import 'package:making_tests/presentation/presentation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-void main() async {
+void main() {
+  // Testing group for email validation
   group('Testing valid email >', () {
     test('Check success valid email', () {
       // Arrange
@@ -13,6 +14,7 @@ void main() async {
     });
 
     test('Check success valid email', () {
+      // Arrange, Act & Assert
       expect(isValidEmail('test@domain.com'), true);
     });
 
@@ -59,6 +61,8 @@ void main() async {
       expect(isValidEmail('te;st@domain.com'), false);
     });
   });
+
+  // Testing group for password validation
 
   group('Testing valid password >', () {
     test('Check success password validator', () {

@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  // Generic Arrange
   setUp(() async {
     setupFirebaseCoreMocks();
     TestWidgetsFlutterBinding.ensureInitialized();
@@ -73,14 +74,18 @@ void main() {
     final switchFormButtonFinder = find.byKey(const Key('switchFormButton'));
 
     testWidgets('Check switch auth form', (WidgetTester tester) async {
+      // Act
       await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
-
+      // Act
       await tester.tap(switchFormButtonFinder);
       await tester.pump();
+      // Assert
       expect(signUpFormFinder, findsOneWidget);
       expect(loginFormFinder, findsNothing);
+      // Act
       await tester.tap(switchFormButtonFinder);
       await tester.pump();
+      // Assert
       expect(signUpFormFinder, findsNothing);
       expect(loginFormFinder, findsOneWidget);
     });
@@ -96,17 +101,23 @@ void main() {
     final loginButtonFinder = find.byKey(const Key('loginButton'));
 
     testWidgets('Check invalid login form', (WidgetTester tester) async {
+      // Arrange
       await tester.pumpWidget(fakeMaterialApp(const AuthScreen()));
+      // Assert
       expect(loginButtonFinder, findsOneWidget);
       expect(invalidEmailTextFinder, findsNothing);
       expect(invalidPasswordTextFinder, findsNothing);
+      // Act
       await tester.tap(loginButtonFinder);
       await tester.pump();
+      // Assert
       expect(invalidEmailTextFinder, findsOneWidget);
       expect(invalidPasswordTextFinder, findsOneWidget);
+      // Act
       await tester.enterText(emailFieldFinder, 'test@domain.com');
       await tester.enterText(passwordFieldFinder, '123456Abc*');
       await tester.pump();
+      // Assert
       expect(invalidEmailTextFinder, findsNothing);
       expect(invalidPasswordTextFinder, findsNothing);
     });

@@ -13,6 +13,7 @@ void main() {
   late MockAuthDataSource mockAuthDataSource;
   late MockAuthRepositoryImpl mockAuthRepositoryImpl;
 
+  // Generic Arrange
   setUp(() async {
     setupFirebaseAuthMocks();
     mockFirebaseAuth = MockFirebaseAuth(mockUser: mockUser);
@@ -30,19 +31,23 @@ void main() {
 
   group('Login use case Test >', () {
     test('Success login', () async {
+      // Arrange
       final loginUseCase = kiwiContainer.resolve<LoginUseCase>();
+      // Assert
       expect(mockFirebaseAuth.currentUser, isNull);
-
+      // Act
       await loginUseCase.call(mockUser.email!, 'password');
-
+      // Assert
       expect(mockFirebaseAuth.currentUser, isNotNull);
     });
 
     test('Fail login', () async {
+      // Arrange
       final loginUseCase = kiwiContainer.resolve<LoginUseCase>();
       whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
           .on(mockFirebaseAuth)
           .thenThrow(FirebaseAuthException(code: 'test'));
+      // Assert
       expect(
           await loginUseCase.call(mockUser.email!, 'password'), authException);
     });

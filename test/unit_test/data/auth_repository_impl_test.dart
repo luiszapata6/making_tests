@@ -11,6 +11,7 @@ void main() {
   late MockAuthDataSource mockAuthDataSource;
   late MockAuthRepositoryImpl mockAuthRepositoryImpl;
 
+  // Generic Arrange
   setUp(() async {
     setupFirebaseAuthMocks();
     mockFirebaseAuth = MockFirebaseAuth(mockUser: mockUser);
@@ -21,34 +22,50 @@ void main() {
 
   group('Firebase Sign Up Test >', () {
     test('Success Sign Up Test', () async {
-      expect(await mockAuthRepositoryImpl.signUp(mockUser.email!, 'password'),
-          Success(mockUser));
+      // Act
+      final signUp =
+          await mockAuthRepositoryImpl.signUp(mockUser.email!, 'password');
+      // Assert
+      expect(signUp, Success(mockUser));
     });
 
     test('Fail Sign Up Test', () async {
+      // Arrange
       whenCalling(Invocation.method(#createUserWithEmailAndPassword, null))
           .on(mockFirebaseAuth)
           .thenThrow(FirebaseAuthException(code: 'test'));
-      expect(await mockAuthRepositoryImpl.signUp(mockUser.email!, 'password'),
-          authException);
+
+      // Act
+      final signUp =
+          await mockAuthRepositoryImpl.signUp(mockUser.email!, 'password');
+
+      // Assert
+      expect(signUp, authException);
     });
   });
 
   group('Firebase Login Test >', () {
     test('Success login', () async {
+      // Assert
       expect(mockFirebaseAuth.currentUser, isNull);
 
+      // Act
       await mockAuthRepositoryImpl.login(mockUser.email!, 'password');
 
+      // Assert
       expect(mockFirebaseAuth.currentUser, isNotNull);
     });
 
     test('Fail Login Test', () async {
+      // Arrange
       whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
           .on(mockFirebaseAuth)
           .thenThrow(FirebaseAuthException(code: 'test'));
-      expect(await mockAuthRepositoryImpl.login(mockUser.email!, 'password'),
-          authException);
+      // Act
+      final login =
+          await mockAuthRepositoryImpl.login(mockUser.email!, 'password');
+      // Assert
+      expect(login, authException);
     });
   });
 }
