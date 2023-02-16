@@ -17,8 +17,6 @@ class _$Injector extends Injector {
       ..registerFactory(
           (c) => LoginUseCase(authRepository: c<AuthRepository>()))
       ..registerFactory(
-          (c) => SignUpUseCase(authRepository: c<AuthRepository>()))
-      ..registerFactory(
-          (c) => LogoutUseCase(authRepository: c<AuthRepository>()));
+          (c) => SignUpUseCase(authRepository: c<AuthRepository>()));
   }
 }

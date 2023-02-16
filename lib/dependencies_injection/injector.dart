@@ -43,6 +43,5 @@ abstract class Injector {
   @Register.factory(AuthRepository, from: AuthRepositoryImpl)
   @Register.factory(LoginUseCase, name: 'LoginUseCase')
   @Register.factory(SignUpUseCase)
-  @Register.factory(LogoutUseCase)
   void _configureAuthFactories();
 }

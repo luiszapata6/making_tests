@@ -11,6 +11,11 @@ void main() async {
       // Assert
       expect(result, true);
     });
+
+    test('Check success valid email', () {
+      expect(isValidEmail('test@domain.com'), true);
+    });
+
     test('Check fails for empty string', () {
       expect(isValidEmail(''), false);
     });
@@ -72,7 +77,7 @@ void main() async {
       expect(isValidPassword('123456ABC*'), false);
     });
 
-    test('Check fails for only letters string', () {
+    test('Check fails for only letters', () {
       expect(isValidPassword('ABCDEFGhij'), false);
     });
 
@@ -85,7 +90,7 @@ void main() async {
     });
 
     test('Check fails for only upper case', () {
-      expect(isValidPassword('123456ABC*'), false);
+      expect(isValidPassword('ABCDEFGHIJ'), false);
     });
 
     test('Check fails for only lower case', () {

@@ -1,7 +1,7 @@
 export 'package:making_tests/presentation/src/core/colors.dart';
 export 'package:making_tests/presentation/src/widgets/common_widgets/text_form_widgets.dart';
 export 'package:making_tests/presentation/src/features/auth/bloc/auth_bloc.dart';
-export 'package:making_tests/presentation/src/features/auth/screens/sign_screen.dart';
+export 'package:making_tests/presentation/src/features/auth/screens/auth_screen.dart';
 export 'package:making_tests/presentation/src/features/auth/views/auth_handler_view.dart';
 export 'package:making_tests/presentation/src/features/auth/widgets/loading_widget.dart';
 export 'package:making_tests/presentation/src/features/auth/widgets/login_form_widget.dart';

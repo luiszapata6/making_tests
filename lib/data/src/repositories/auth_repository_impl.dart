@@ -22,10 +22,4 @@ class AuthRepositoryImpl implements AuthRepository {
     final response = await authDataSource.login(email, password);
     return response;
   }
-
-  @override
-  Future<Result<bool, Exception>> logout() async {
-    final response = await authDataSource.logout();
-    return response;
-  }
 }

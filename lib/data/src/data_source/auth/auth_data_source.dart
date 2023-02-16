@@ -25,13 +25,4 @@ class AuthDataSource {
       return Error(Exception(e.message));
     }
   }
-
-  Future<Result<bool, Exception>> logout() async {
-    try {
-      await firebaseAuth.signOut();
-      return const Success(true);
-    } on FirebaseAuthException catch (e) {
-      return Error(Exception(e.message));
-    }
-  }
 }

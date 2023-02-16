@@ -10,7 +10,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(const AuthState()) {
     final loginUseCase = Injector.resolve<LoginUseCase>();
     final signUpUseCase = Injector.resolve<SignUpUseCase>();
-    final logOutUseCase = Injector.resolve<LogoutUseCase>();
 
     on<SignUp>((event, emit) async {
       emit(state.copyWith(formStatus: FormSubmitting()));
@@ -40,24 +39,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           state.copyWith(
               formStatus: SubmissionFailed(exception: Exception(error.message)),
               errorMessage: error.message),
-        ),
-        (user) => emit(
-          state.copyWith(
-            formStatus: SubmissionSuccess(),
-          ),
-        ),
-      ); */
-    });
-
-    on<Logout>((event, emit) async {
-      emit(state.copyWith(formStatus: FormSubmitting()));
-      final loggedOut = await logOutUseCase.call();
-      /* loggedOut.fold(
-        (error) => emit(
-          state.copyWith(
-            formStatus: SubmissionFailed(exception: Exception(error.message)),
-            errorMessage: error.message,
-          ),
         ),
         (user) => emit(
           state.copyWith(

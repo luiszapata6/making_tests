@@ -1,4 +1,6 @@
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:making_tests/dependencies_injection/injector.dart';
+import 'package:making_tests/domain/domain.dart';
 import 'package:mock_exceptions/mock_exceptions.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,38 +19,52 @@ void main() {
     mockAuthDataSource = MockAuthDataSource(mockFirebaseAuth: mockFirebaseAuth);
     mockAuthRepositoryImpl =
         MockAuthRepositoryImpl(mockAuthDataSource: mockAuthDataSource);
+    Injector.container
+      ..registerFactory(
+          (container) => LoginUseCase(authRepository: mockAuthRepositoryImpl))
+      ..registerFactory(
+          (container) => SignUpUseCase(authRepository: mockAuthRepositoryImpl));
   });
 
-  group('Firebase Sign Up Test >', () {
-    test('Success Sign Up Test', () async {
-      expect(await mockAuthRepositoryImpl.signUp(mockUser.email!, 'password'),
+  tearDown(() {
+    Injector.container.clear();
+  });
+
+  group('Sign Up use case testing >', () {
+    test('Success Sign Up', () async {
+      final signUpUseCase = Injector.resolve<SignUpUseCase>();
+
+      expect(await signUpUseCase.call(mockUser.email!, 'password'),
           Success(mockUser));
     });
 
-    test('Fail Sign Up Test', () async {
+    test('Fail Sign Up', () async {
+      final signUpUseCase = Injector.resolve<SignUpUseCase>();
       whenCalling(Invocation.method(#createUserWithEmailAndPassword, null))
           .on(mockFirebaseAuth)
           .thenThrow(FirebaseAuthException(code: 'test'));
-      expect(await mockAuthRepositoryImpl.signUp(mockUser.email!, 'password'),
-          authException);
+      expect(
+          await signUpUseCase.call(mockUser.email!, 'password'), authException);
     });
   });
 
-  group('Firebase Login Test >', () {
+  group('Login use case Test >', () {
     test('Success login', () async {
+      final loginUseCase = Injector.resolve<LoginUseCase>();
       expect(mockFirebaseAuth.currentUser, isNull);
 
-      await mockAuthRepositoryImpl.login(mockUser.email!, 'password');
+      await loginUseCase.call(mockUser.email!, 'password');
 
       expect(mockFirebaseAuth.currentUser, isNotNull);
     });
 
-    test('Fail Login Test', () async {
+    test('Fail login', () async {
+      final loginUseCase = Injector.resolve<LoginUseCase>();
       whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
           .on(mockFirebaseAuth)
           .thenThrow(FirebaseAuthException(code: 'test'));
-      expect(await mockAuthRepositoryImpl.login(mockUser.email!, 'password'),
-          authException);
+      expect(
+          await loginUseCase.call(mockUser.email!, 'password'), authException);
     });
   });
 }
