@@ -1,9 +1,8 @@
-import 'dart:async';
-
-import '../../data.dart';
-import '../../../domain/domain.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:multiple_result/multiple_result.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../../domain/domain.dart';
+import '../../data.dart';
+import 'dart:async';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthDataSource authDataSource;

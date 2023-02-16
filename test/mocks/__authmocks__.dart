@@ -1,8 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
+import 'package:multiple_result/multiple_result.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:making_tests/data/data.dart';
 import 'package:mockito/mockito.dart';
-import 'package:multiple_result/multiple_result.dart';
+
+// Mocked Auth repository implementation
 
 class MockAuthRepositoryImpl extends Mock implements AuthRepositoryImpl {
   final MockAuthDataSource mockAuthDataSource;
@@ -19,15 +21,9 @@ class MockAuthRepositoryImpl extends Mock implements AuthRepositoryImpl {
     final response = await mockAuthDataSource.login(email, password);
     return response;
   }
-
-  @override
-  Future<Result<bool, Exception>> logout() async {
-    final response = await mockAuthDataSource.logout();
-    return response;
-  }
 }
 
-// ----- MOCK DATA SOURCE -----
+// Mocked Auth data source
 
 class MockAuthDataSource extends Mock implements AuthDataSource {
   final MockFirebaseAuth mockFirebaseAuth;
@@ -56,17 +52,9 @@ class MockAuthDataSource extends Mock implements AuthDataSource {
       return authException;
     }
   }
-
-  @override
-  Future<Result<bool, Exception>> logout() async {
-    try {
-      await mockFirebaseAuth.signOut();
-      return const Success(true);
-    } on FirebaseAuthException {
-      return boolException;
-    }
-  }
 }
+
+// Mocked firebase auth user model
 
 final mockUser = MockUser(
   isAnonymous: false,
@@ -75,8 +63,7 @@ final mockUser = MockUser(
   displayName: 'Mock User',
 );
 
+// Mocked Auth exception
+
 final Error<User, Exception> authException =
     Error<User, Exception>(Exception());
-
-final Error<bool, Exception> boolException =
-    Error<bool, Exception>(Exception());

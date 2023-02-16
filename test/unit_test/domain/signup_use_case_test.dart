@@ -1,5 +1,6 @@
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:mock_exceptions/mock_exceptions.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:making_tests/domain/domain.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -21,30 +22,28 @@ void main() {
         MockAuthRepositoryImpl(mockAuthDataSource: mockAuthDataSource);
     kiwiContainer = KiwiContainer();
     kiwiContainer.registerFactory(
-        (container) => LoginUseCase(authRepository: mockAuthRepositoryImpl));
+        (container) => SignUpUseCase(authRepository: mockAuthRepositoryImpl));
   });
 
   tearDown(() {
     kiwiContainer.clear();
   });
 
-  group('Login use case Test >', () {
-    test('Success login', () async {
-      final loginUseCase = kiwiContainer.resolve<LoginUseCase>();
-      expect(mockFirebaseAuth.currentUser, isNull);
+  group('Sign Up use case testing >', () {
+    test('Success Sign Up', () async {
+      final signUpUseCase = kiwiContainer.resolve<SignUpUseCase>();
 
-      await loginUseCase.call(mockUser.email!, 'password');
-
-      expect(mockFirebaseAuth.currentUser, isNotNull);
+      expect(await signUpUseCase.call(mockUser.email!, 'password'),
+          Success(mockUser));
     });
 
-    test('Fail login', () async {
-      final loginUseCase = kiwiContainer.resolve<LoginUseCase>();
-      whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
+    test('Fail Sign Up', () async {
+      final signUpUseCase = kiwiContainer.resolve<SignUpUseCase>();
+      whenCalling(Invocation.method(#createUserWithEmailAndPassword, null))
           .on(mockFirebaseAuth)
           .thenThrow(FirebaseAuthException(code: 'test'));
       expect(
-          await loginUseCase.call(mockUser.email!, 'password'), authException);
+          await signUpUseCase.call(mockUser.email!, 'password'), authException);
     });
   });
 }

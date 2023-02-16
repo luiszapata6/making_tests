@@ -14,7 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUp>((event, emit) async {
       emit(state.copyWith(formStatus: FormSubmitting()));
       try {
-        final newUser = await signUpUseCase.call(event.email, event.password);
+        await signUpUseCase.call(event.email, event.password);
         emit(
           state.copyWith(
             formStatus: SubmissionSuccess(),
@@ -33,19 +33,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<Login>((event, emit) async {
       emit(state.copyWith(formStatus: FormSubmitting()));
-      final loggedUser = await loginUseCase.call(event.email, event.password);
-      /*  loggedUser.fold(
-        (error) => emit(
-          state.copyWith(
-              formStatus: SubmissionFailed(exception: Exception(error.message)),
-              errorMessage: error.message),
-        ),
-        (user) => emit(
+
+      try {
+        await loginUseCase.call(event.email, event.password);
+        emit(
           state.copyWith(
             formStatus: SubmissionSuccess(),
           ),
-        ),
-      ); */
+        );
+      } on InvalidData catch (invalidData) {
+        emit(
+          state.copyWith(
+            formStatus:
+                SubmissionFailed(exception: Exception(invalidData.message)),
+            errorMessage: invalidData.message,
+          ),
+        );
+      }
     });
   }
 }
