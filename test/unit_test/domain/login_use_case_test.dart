@@ -41,13 +41,13 @@ void main() {
       expect(mockFirebaseAuth.currentUser, isNotNull);
     });
 
-    test('Fail login', () async {
+    test('Failed login', () async {
       // Arrange
       final loginUseCase = kiwiContainer.resolve<LoginUseCase>();
       whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
           .on(mockFirebaseAuth)
           .thenThrow(FirebaseAuthException(code: 'test'));
-      // Assert
+      // Act & Assert
       expect(
           await loginUseCase.call(mockUser.email!, 'password'), authException);
     });

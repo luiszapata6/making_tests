@@ -26,7 +26,7 @@ void main() {
       expect(isValidEmail('test @domain.com'), false);
     });
 
-    test('Check fails for @ wrong placed', () {
+    test('Check fails for @ missplaced', () {
       expect(isValidEmail('@testdomain.com'), false);
     });
 
@@ -102,7 +102,7 @@ void main() {
     });
 
     test('Check fails for only numbers and special chars', () {
-      expect(isValidPassword('123456abc*'), false);
+      expect(isValidPassword('123456*'), false);
     });
   });
 }
